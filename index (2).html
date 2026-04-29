@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Pedro Express — Planytrip</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5e6c8;
+    --sand-dark: #d4b483;
+    --desert: #c4853a;
+    --desert-deep: #8b5a1a;
+    --sky: #1a3a5c;
+    --sky-light: #2d6a8a;
+    --salt: #f9f4ec;
+    --text: #1a1208;
+    --text-muted: #6b5a3a;
+    --white: #fdfaf5;
+    --teal: #00c4aa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--salt);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(170deg, #0a1a2e 0%, #1a3a5c 40%, #2d5a3a 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 5%;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(196,133,58,0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(45,106,138,0.2) 0%, transparent 60%);
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--d, 3s) var(--delay, 0s) ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.2; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Desert silhouette */
+  .desert-silhouette {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 35%;
+  }
+
+  .hero-logo {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2rem;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .hero-logo img {
+    height: 52px;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  .hero-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .hero-badge {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    background: rgba(196,133,58,0.25);
+    border: 1px solid rgba(196,133,58,0.5);
+    color: var(--sand);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 24px;
+    margin-bottom: 1.5rem;
+    animation: fadeDown 0.8s 0.1s ease both;
+  }
+
+  .hero h1 {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    color: white;
+    line-height: 0.95;
+    margin-bottom: 0.5rem;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sand);
+    display: block;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+
+  .hero-desc {
+    position: relative;
+    z-index: 2;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.75;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+    animation: fadeDown 0.8s 0.4s ease both;
+  }
+
+  .hero-price-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    animation: fadeDown 0.8s 0.5s ease both;
+  }
+
+  .price-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--sand);
+    line-height: 1;
+  }
+
+  .price-detail {
+    text-align: left;
+  }
+
+  .price-detail span {
+    display: block;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+  }
+
+  .urgency-pill {
+    background: rgba(224,85,85,0.2);
+    border: 1px solid rgba(224,85,85,0.4);
+    color: #f5a5a5;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .urgency-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #f56a6a;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .hero-btns {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeDown 0.8s 0.6s ease both;
+  }
+
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+  }
+
+  .btn-wa:hover { background: #1db954; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(37,211,102,0.45); }
+
+  .btn-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+
+  .btn-form:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+  .trust-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    animation: fadeDown 0.8s 0.7s ease both;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .trust-item span:first-child { color: var(--sand); }
+
+  .hero-wave {
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    z-index: 3;
+  }
+
+  /* ── INCLUDES ── */
+  .includes {
+    background: var(--salt);
+    padding: 5rem 5%;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--desert);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.15;
+  }
+
+  .includes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .include-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    border: 1px solid rgba(196,133,58,0.15);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .include-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(196,133,58,0.12); }
+
+  .include-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .include-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .include-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── ITINERARY ── */
+  .itinerary {
+    background: linear-gradient(160deg, #0a1a2e 0%, #1a3a5c 100%);
+    padding: 5rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .itinerary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(196,133,58,0.15) 0%, transparent 70%);
+  }
+
+  .itinerary .section-header h2 { color: white; }
+  .itinerary .section-tag { color: var(--sand); }
+
+  .days {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .day-line {
+    position: absolute;
+    left: 28px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(196,133,58,0.5), transparent);
+  }
+
+  .day-card {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .day-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(196,133,58,0.15);
+    border: 1.5px solid rgba(196,133,58,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--sand);
+  }
+
+  .day-content {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .day-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--sand);
+    margin-bottom: 0.5rem;
+  }
+
+  .day-content p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+  }
+
+  .day-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .day-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: rgba(196,133,58,0.15);
+    color: var(--sand);
+    border: 0.5px solid rgba(196,133,58,0.3);
+  }
+
+  /* ── GALLERY ── */
+  .gallery {
+    background: var(--salt);
+    padding: 5rem 5%;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 220px 220px;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 2rem auto 0;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+  .gallery-item:hover { transform: scale(1.02); }
+  .gallery-item:first-child { grid-row: span 2; border-radius: 16px; font-size: 4rem; }
+
+  .g1 { background: linear-gradient(135deg, #1a3a5c, #2d6a8a); }
+  .g2 { background: linear-gradient(135deg, #8b5a1a, #c4853a); }
+  .g3 { background: linear-gradient(135deg, #1a2e1a, #3d6b3e); }
+  .g4 { background: linear-gradient(135deg, #2a1a0a, #5c3a1a); }
+  .g5 { background: linear-gradient(135deg, #0a1a2e, #1a3a5c); }
+
+  .gallery-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .gallery-note {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    background: var(--sand);
+    padding: 5rem 5%;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 2.5rem auto 0;
+  }
+
+  .testi-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.75rem;
+    border: 1px solid rgba(196,133,58,0.15);
+  }
+
+  .stars-row {
+    color: #f5a623;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 2px;
+  }
+
+  .testi-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .testi-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .testi-name { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+  .testi-source { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: linear-gradient(160deg, #0a1a2e 0%, #1a3a5c 100%);
+    padding: 5rem 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(196,133,58,0.2) 0%, transparent 70%);
+  }
+
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-section h2 em { font-style: italic; color: var(--sand); }
+
+  .cta-section p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+    font-weight: 300;
+  }
+
+  .cta-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2rem;
+  }
+
+  /* ── FORM ── */
+  .form-section {
+    background: var(--salt);
+    padding: 5rem 5%;
+  }
+
+  .form-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 24px;
+    padding: 3rem;
+    border: 1px solid rgba(196,133,58,0.15);
+    box-shadow: 0 4px 32px rgba(196,133,58,0.08);
+  }
+
+  .form-wrap h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-wrap > p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e8e0d0;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--salt);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--desert); }
+
+  .form-group textarea { resize: none; height: 100px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--desert);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.25s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-submit:hover { background: var(--desert-deep); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(196,133,58,0.3); }
+
+  .form-wa-alt {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e8e0d0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .form-wa-alt a {
+    color: #25d366;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a1a2e;
+    padding: 2rem 5%;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  footer a:hover { color: var(--sand); }
+
+  /* ── STICKY WA BTN ── */
+  .sticky-wa {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(37,211,102,0.45);
+    animation: bounceIn 1s 2s ease both;
+    transition: all 0.25s;
+  }
+
+  .sticky-wa:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(37,211,102,0.55); }
+
+  @keyframes bounceIn {
+    from { opacity: 0; transform: translateY(80px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--desert-deep);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 9999;
+    transition: transform 0.4s ease;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .includes-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-row: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-wrap { padding: 2rem 1.5rem; }
+    .sticky-wa span.label { display: none; }
+    .sticky-wa { padding: 14px; border-radius: 50%; width: 54px; height: 54px; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY WA -->
+<a class="sticky-wa" href="https://api.whatsapp.com/send?phone=56993582105&text=Hola%2C%20vi%20el%20paquete%20San%20Pedro%20Express%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="label">Consultar ahora</span>
+</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="stars" id="stars"></div>
+
+  <div class="hero-logo">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:white;letter-spacing:0.08em">PLANYTRIP</div>
+    <div class="hero-logo-text">Agencia de Viajes</div>
+  </div>
+
+  <div class="hero-badge">✦ Escapada más vendida de Chile</div>
+
+  <h1>San Pedro<em>Express</em></h1>
+  <div class="hero-sub">San Pedro de Atacama · 3 días / 2 noches</div>
+
+  <p class="hero-desc">Descubre el cielo más estrellado del mundo, recorre paisajes que parecen de otro planeta y vive una experiencia astronómica única. Todo organizado por nosotros — tú solo disfrutas.</p>
+
+  <div class="hero-price-row">
+    <div class="price-main">$385.000</div>
+    <div class="price-detail">
+      <span>CLP por pareja</span>
+      <span>Incluye hospedaje + tours</span>
+    </div>
+    <div class="urgency-pill">
+      <div class="urgency-dot"></div>
+      Solo 4 cupos disponibles
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="https://api.whatsapp.com/send?phone=56993582105&text=Hola%2C%20vi%20el%20paquete%20San%20Pedro%20Express%20y%20quiero%20reservar" target="_blank" class="btn-wa">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Reservar por WhatsApp
+    </a>
+    <a href="#formulario" class="btn-form">📋 Solicitar información</a>
+  </div>
+
+  <div class="trust-row">
+    <div class="trust-item"><span>⭐⭐⭐⭐⭐</span><span>5.0 en Google · 32 reseñas</span></div>
+    <div class="trust-item"><span>✓</span><span>+500 viajeros satisfechos</span></div>
+    <div class="trust-item"><span>🛡</span><span>Reserva 100% segura</span></div>
+  </div>
+
+  <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#f9f4ec"/>
+  </svg>
+</section>
+
+<!-- INCLUDES -->
+<section class="includes">
+  <div class="section-header fade-up">
+    <div class="section-tag">✦ Qué incluye</div>
+    <h2>Todo listo para que solo disfrutes</h2>
+  </div>
+  <div class="includes-grid">
+    <div class="include-card fade-up">
+      <span class="include-icon">🏨</span>
+      <h3>Hospedaje Deluxe</h3>
+      <p>2 noches en Hotel Illauca o categoría similar en San Pedro de Atacama, desayuno incluido.</p>
+    </div>
+    <div class="include-card fade-up">
+      <span class="include-icon">🔭</span>
+      <h3>Experiencia Astronómica</h3>
+      <p>Tour nocturno de observación estelar con telescopios profesionales bajo el cielo más limpio del mundo.</p>
+    </div>
+    <div class="include-card fade-up">
+      <span class="include-icon">🏜️</span>
+      <h3>Tours al Desierto</h3>
+      <p>Valle de la Luna, Géiseres del Tatio y lagunas altiplánicas con guía experto incluido.</p>
+    </div>
+    <div class="include-card fade-up">
+      <span class="include-icon">🚗</span>
+      <h3>Traslados</h3>
+      <p>Coordinación completa de traslados y transfers entre los puntos del tour para 2 personas.</p>
+    </div>
+    <div class="include-card fade-up">
+      <span class="include-icon">📋</span>
+      <h3>Coordinación total</h3>
+      <p>Nos encargamos de reservar todo — tú solo confirmas y haces las maletas.</p>
+    </div>
+    <div class="include-card fade-up">
+      <span class="include-icon">📞</span>
+      <h3>Soporte 24/7</h3>
+      <p>Atención por WhatsApp antes y durante tu viaje para cualquier necesidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="itinerary">
+  <div class="section-header fade-up">
+    <div class="section-tag" style="color:var(--sand)">✦ Itinerario</div>
+    <h2>Tu aventura día a día</h2>
+  </div>
+  <div class="days">
+    <div class="day-line"></div>
+    <div class="day-card fade-up">
+      <div class="day-num">1</div>
+      <div class="day-content">
+        <h3>Llegada y Valle de la Luna</h3>
+        <p>Llegada a San Pedro de Atacama, check-in en el hotel. Por la tarde, tour al icónico Valle de la Luna para ver el atardecer más espectacular del desierto, con sus dunas de sal y formaciones rocosas únicas.</p>
+        <div class="day-tags">
+          <span class="day-tag">Tarde</span>
+          <span class="day-tag">Valle de la Luna</span>
+          <span class="day-tag">Atardecer</span>
+        </div>
+      </div>
+    </div>
+    <div class="day-card fade-up">
+      <div class="day-num">2</div>
+      <div class="day-content">
+        <h3>Géiseres del Tatio + Noche Estrellada</h3>
+        <p>Amanecer en los Géiseres del Tatio a 4.300 metros de altura — el espectáculo de vapor y géisers al amanecer es indescriptible. Por la noche, experiencia astronómica con telescopios profesionales.</p>
+        <div class="day-tags">
+          <span class="day-tag">Amanecer</span>
+          <span class="day-tag">Géiseres del Tatio</span>
+          <span class="day-tag">Astronomía</span>
+        </div>
+      </div>
+    </div>
+    <div class="day-card fade-up">
+      <div class="day-num">3</div>
+      <div class="day-content">
+        <h3>Lagunas Altiplánicas y regreso</h3>
+        <p>Tour a las Lagunas Altiplánicas y el Salar de Atacama con flamencos rosados. Almuerzo y traslado al aeropuerto para tu vuelo de regreso con recuerdos que duran toda la vida.</p>
+        <div class="day-tags">
+          <span class="day-tag">Lagunas</span>
+          <span class="day-tag">Flamencos</span>
+          <span class="day-tag">Salar de Atacama</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="section-header fade-up">
+    <div class="section-tag">✦ El destino</div>
+    <h2>Paisajes que te dejan sin palabras</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item g1 fade-up">
+      🌌
+      <div class="gallery-label">Cielo estrellado · Atacama</div>
+    </div>
+    <div class="gallery-item g2 fade-up">
+      🏜️
+      <div class="gallery-label">Valle de la Luna</div>
+    </div>
+    <div class="gallery-item g3 fade-up">
+      🦩
+      <div class="gallery-label">Lagunas Altiplánicas</div>
+    </div>
+    <div class="gallery-item g4 fade-up">
+      🌋
+      <div class="gallery-label">Géiseres del Tatio</div>
+    </div>
+    <div class="gallery-item g5 fade-up">
+      🧂
+      <div class="gallery-label">Salar de Atacama</div>
+    </div>
+  </div>
+  <p class="gallery-note">📸 Puedes reemplazar estos bloques con tus fotos reales subidas a GitHub</p>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header fade-up">
+    <div class="section-tag">✦ Lo que dicen nuestros viajeros</div>
+    <h2>Experiencias reales de clientes</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card fade-up">
+      <div class="stars-row">★★★★★</div>
+      <p class="testi-text">"Todo perfecto, muy buen servicio y todo súper organizado. 100% recomendable, me encantó la experiencia."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#c4853a">BT</div>
+        <div>
+          <div class="testi-name">Barbara Toledo</div>
+          <div class="testi-source">Google · Viajera verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up">
+      <div class="stars-row">★★★★★</div>
+      <p class="testi-text">"Excelente experiencia y hermosa energía. El tour astronómico fue lo más impresionante que he vivido. 10000% recomendado!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#1a3a5c">VT</div>
+        <div>
+          <div class="testi-name">Victoria Toledo</div>
+          <div class="testi-source">Google · Viajera verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up">
+      <div class="stars-row">★★★★★</div>
+      <p class="testi-text">"Excellent service!! Great experience, the coordination was perfect. I would definitely recommend to book their services."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#3d6b3e">JG</div>
+        <div>
+          <div class="testi-name">Javier Galvez</div>
+          <div class="testi-source">Google · Viajero verificado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <h2>¿Listo para vivir<em>San Pedro?</em></h2>
+  <p>Solo quedan 4 cupos disponibles este mes. Reserva hoy y asegura tu lugar.</p>
+  <div class="cta-btns">
+    <a href="https://api.whatsapp.com/send?phone=56993582105&text=Hola%2C%20quiero%20reservar%20el%20San%20Pedro%20Express%20%24385.000" target="_blank" class="btn-wa" style="font-size:1rem;padding:18px 36px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Reservar ahora — $385.000
+    </a>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="formulario">
+  <div class="form-wrap fade-up">
+    <h2>¿Prefieres que te contactemos?</h2>
+    <p>Déjanos tus datos y un agente Planytrip te escribe en menos de 2 horas con toda la información del paquete.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="fname" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" id="lname" placeholder="Tu apellido">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Correo electrónico</label>
+      <input type="email" id="email" placeholder="tu@correo.cl">
+    </div>
+
+    <div class="form-group">
+      <label>WhatsApp / Teléfono</label>
+      <input type="tel" id="phone" placeholder="+56 9 XXXX XXXX">
+    </div>
+
+    <div class="form-group">
+      <label>¿Cuándo quieres viajar?</label>
+      <select id="travel-date">
+        <option value="">Selecciona un mes</option>
+        <option>Enero 2026</option>
+        <option>Febrero 2026</option>
+        <option>Marzo 2026</option>
+        <option>Abril 2026</option>
+        <option>Mayo 2026</option>
+        <option>Junio 2026</option>
+        <option>Julio 2026</option>
+        <option>Agosto 2026</option>
+        <option>Septiembre 2026</option>
+        <option>Octubre 2026</option>
+        <option>Noviembre 2026</option>
+        <option>Diciembre 2026</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>¿Algo que quieras personalizar?</label>
+      <textarea id="message" placeholder="Número de personas, fechas específicas, necesidades especiales..."></textarea>
+    </div>
+
+    <button class="btn-submit" onclick="submitForm()">Quiero que me contacten →</button>
+
+    <div class="form-wa-alt">
+      ¿Prefieres respuesta inmediata? <a href="https://api.whatsapp.com/send?phone=56993582105&text=Hola%2C%20vi%20el%20San%20Pedro%20Express%20y%20quiero%20informaci%C3%B3n" target="_blank">Escríbenos directo por WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong style="color:rgba(255,255,255,0.7);font-family:'Cormorant Garamond',serif;font-size:1.1rem">PLANYTRIP</strong> · Agencia de Viajes · Chile
+  </div>
+  <div>
+    <a href="mailto:contacto@planytrip.cl">contacto@planytrip.cl</a> · 
+    <a href="tel:+56993582105">+56 9 9358 2105</a> · 
+    <a href="https://planytrip.cl" target="_blank">planytrip.cl</a>
+  </div>
+  <div>© 2025 Planytrip · Todos los derechos reservados</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // Generate stars
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 70}%;
+      --d: ${2 + Math.random() * 4}s;
+      --delay: ${Math.random() * 4}s;
+      width: ${Math.random() > 0.8 ? 3 : 2}px;
+      height: ${Math.random() > 0.8 ? 3 : 2}px;
+      opacity: ${0.3 + Math.random() * 0.7};
+    `;
+    starsContainer.appendChild(star);
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Form submit
+  function submitForm() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const date = document.getElementById('travel-date').value;
+
+    if (!name) { showToast('Por favor ingresa tu nombre'); return; }
+    if (!email) { showToast('Por favor ingresa tu correo'); return; }
+    if (!phone) { showToast('Por favor ingresa tu teléfono'); return; }
+
+    const msg = `Hola! Mi nombre es ${name}. Quiero información sobre el San Pedro Express ($385.000). Correo: ${email}. Teléfono: ${phone}. Fecha de viaje: ${date || 'Por definir'}.`;
+    window.open(`https://api.whatsapp.com/send?phone=56993582105&text=${encodeURIComponent(msg)}`, '_blank');
+    showToast('¡Enviando tu consulta por WhatsApp!');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+</script>
+</body>
+</html>
